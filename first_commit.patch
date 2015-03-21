@@ -1,0 +1,17 @@
+Index: flaskr.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- flaskr.py	(date 1426819904000)
++++ flaskr.py	(revision )
+@@ -4,8 +4,7 @@
+     abort, render_template, flash
+ 
+ #configuration
+-APP_ROOT='/Users/LEILEILEILEIL/info9117/info9117_flaskr-master' #root configuration
+-DATABASE = APP_ROOT + '/' + 'db/flask.db'
++DATABASE = '/Users/LEILEILEILEIL/info9117/info9117_flaskr/db/flask.db'
+ DEBUG = True
+ SECRET_KEY = 'development key'
+ #USERNAME = 'admin'
