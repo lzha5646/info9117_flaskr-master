@@ -71,8 +71,10 @@ class FlaskrTestCase(unittest.TestCase):
             text='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
         assert 'No entries here so far' not in rv.data
-        assert '&lt;Hello&gt;' in rv.data
+        print rv.data
+        assert 'Hello' in rv.data
         assert '<strong>HTML</strong> allowed here' in rv.data
+        rv = self.logout()
 
     def test_messages_with_username(self):
         self.login('admin', 'default')
@@ -80,10 +82,7 @@ class FlaskrTestCase(unittest.TestCase):
             title='<Hello>',
             text='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
-        assert 'No entries here so far' not in rv.data
-        assert '&lt;Hello&gt;' in rv.data
-        assert '<strong>HTML</strong> allowed here' in rv.data
-        assert 'admin' in rv.data
+        assert '<Hello> by admin' in rv.data
         rv = self.logout()
 
         self.login('jim', 'bean')
@@ -91,10 +90,7 @@ class FlaskrTestCase(unittest.TestCase):
             title='<Hello>',
             text='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
-        assert 'No entries here so far' not in rv.data
-        assert '&lt;Hello&gt;' in rv.data
-        assert '<strong>HTML</strong> allowed here' in rv.data
-        assert 'jim' in rv.data
+        assert '<Hello> by jim ' in rv.data
         rv = self.logout()
 
         self.login('spock', 'vulcan')
@@ -102,10 +98,7 @@ class FlaskrTestCase(unittest.TestCase):
             title='<Hello>',
             text='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
-        assert 'No entries here so far' not in rv.data
-        assert '&lt;Hello&gt;' in rv.data
-        assert '<strong>HTML</strong> allowed here' in rv.data
-        assert 'spock' in rv.data
+        assert '<Hello> by spock' in rv.data
         rv = self.logout()
 
     def test_message_with_time(self):
@@ -133,13 +126,13 @@ class FlaskrTestCase(unittest.TestCase):
 
         rv = self.app.post('/add', data=dict(
             title='<Hello>',
-            start_time='3:00',
-            end_time='4:00',
+            start_time='14:00',
+            end_time='00:00',
             text='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
         assert 'No entries here so far' not in rv.data
         assert '14:00' in rv.data
-        assert '24:00' in rv.data
+        assert '00:00' in rv.data
 
 if __name__ == '__main__':
     unittest.main()
