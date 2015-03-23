@@ -67,11 +67,13 @@ class FlaskrTestCase(unittest.TestCase):
     def test_messages(self):
         self.login('admin', 'default')
         rv = self.app.post('/add', data=dict(
-            title='<Hello>',
-            text='<strong>HTML</strong> allowed here'
+            title='Hello',
+            text='<strong>HTML</strong> allowed here',
+            start_time='',
+            end_time='',
         ), follow_redirects=True)
         assert 'No entries here so far' not in rv.data
-        print rv.data
+        print rv
         assert 'Hello' in rv.data
         assert '<strong>HTML</strong> allowed here' in rv.data
         rv = self.logout()
@@ -80,25 +82,30 @@ class FlaskrTestCase(unittest.TestCase):
         self.login('admin', 'default')
         rv = self.app.post('/add', data=dict(
             title='<Hello>',
+            start_time='',
+            end_time='',
             text='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
-        assert '<Hello> by admin' in rv.data
+        assert 'admin' in rv.data
         rv = self.logout()
-
         self.login('jim', 'bean')
         rv = self.app.post('/add', data=dict(
             title='<Hello>',
+            start_time='',
+            end_time='',
             text='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
-        assert '<Hello> by jim ' in rv.data
+        assert 'jim' in rv.data
         rv = self.logout()
 
         self.login('spock', 'vulcan')
         rv = self.app.post('/add', data=dict(
             title='<Hello>',
+            start_time='',
+            end_time='',
             text='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
-        assert '<Hello> by spock' in rv.data
+        assert 'spock' in rv.data
         rv = self.logout()
 
     def test_message_with_time(self):
