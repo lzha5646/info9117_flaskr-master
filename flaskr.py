@@ -45,7 +45,7 @@ def show_entries():
 def add_entry():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('insert into entries (title, text, username,start_time, end_time) values (?,?,?,?,?)',
+    g.db.execute('insert into entries (title, text, username, start_time, end_time) values (?,?,?,?,?)',
                  [request.form['title'], request.form['text'], request.form['start_time'], request.form['end_time'], session['username']])
     g.db.commit()
     flash('New entry was successfully posted')

@@ -74,6 +74,40 @@ class FlaskrTestCase(unittest.TestCase):
         assert '&lt;Hello&gt;' in rv.data
         assert '<strong>HTML</strong> allowed here' in rv.data
 
+    def test_messages_with_username(self):
+        self.login('admin', 'default')
+        rv = self.app.post('/add', data=dict(
+            title='<Hello>',
+            text='<strong>HTML</strong> allowed here'
+        ), follow_redirects=True)
+        assert 'No entries here so far' not in rv.data
+        assert '&lt;Hello&gt;' in rv.data
+        assert '<strong>HTML</strong> allowed here' in rv.data
+        assert 'admin' in rv.data
+        rv = self.logout()
+
+        self.login('jim', 'bean')
+        rv = self.app.post('/add', data=dict(
+            title='<Hello>',
+            text='<strong>HTML</strong> allowed here'
+        ), follow_redirects=True)
+        assert 'No entries here so far' not in rv.data
+        assert '&lt;Hello&gt;' in rv.data
+        assert '<strong>HTML</strong> allowed here' in rv.data
+        assert 'jim' in rv.data
+        rv = self.logout()
+
+        self.login('spock', 'vulcan')
+        rv = self.app.post('/add', data=dict(
+            title='<Hello>',
+            text='<strong>HTML</strong> allowed here'
+        ), follow_redirects=True)
+        assert 'No entries here so far' not in rv.data
+        assert '&lt;Hello&gt;' in rv.data
+        assert '<strong>HTML</strong> allowed here' in rv.data
+        assert 'spock' in rv.data
+        rv = self.logout()
+
     def test_message_with_time(self):
         self.login('admin', 'default')
 
